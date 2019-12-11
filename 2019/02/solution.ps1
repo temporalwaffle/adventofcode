@@ -74,15 +74,3 @@ $InstructionIncrement = $Instruction.Count
 $InstructionPointer = 0 
 $InstructionPointer = $InstructionPointer + $InstructionIncrement
 
-switch ($x) {
-    condition {  }
-    Default {}
-}
-
-switch ($x)
-{
-    'value1' {  }
-    {$_ -in 'A','B','C'} {}
-    'value3' {}
-    Default {}
-}
