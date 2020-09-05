@@ -24,15 +24,18 @@ import os
 here = Path(__file__).parent.resolve()
 os.chdir(here)
 
-with open('input.txt', 'r') as f:
-    total = 0
-    for line in f:
-        l, w, h = line.split('x')
-        l, w, h = int(l), int(w), int(h)
-        area = (2*l*w) + (2*w*h) + (2*h*l)
-        slack = min(l*w, w*h, h*l)
-        total += area + slack
-    print(total)
+def part1():
+    with open('input.txt', 'r') as f:
+        total = 0
+        for line in f:
+            l, w, h = line.split('x')
+            l, w, h = int(l), int(w), int(h)
+            area = (2*l*w) + (2*w*h) + (2*h*l)
+            slack = min(l*w, w*h, h*l)
+            total += area + slack
+        return total
+
+print(part1())
 
 """
 --- Part Two ---
@@ -54,3 +57,20 @@ A present with dimensions 1x1x10 requires 1+1+1+1 = 4 feet of ribbon to wrap the
 present plus 1*1*10 = 10 feet of ribbon for the bow, for a total of 14 feet.
 How many total feet of ribbon should they order?
 """
+
+def part2():
+    with open('input.txt', 'r') as f:
+        total = 0
+        for line in f:
+            l, w, h = line.split('x')
+            l, w, h = int(l), int(w), int(h)
+            dimensions = [l, w, h] # easier to determine the largest dimension(and therefore the smaller two) as a list
+            dimensions.sort() # default sorts list ascending
+            dimensions.pop() # removes the last value in the list, in this case the largest, leaving only the smaller two
+            for i in dimensions: # This adds together each dimension as is required and adds to total 
+                total += i + i
+            volume = (l*w*h) 
+            total += volume 
+        return total
+
+print(part2())
