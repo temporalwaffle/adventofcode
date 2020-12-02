@@ -24,3 +24,35 @@ In this list, the two entries that sum to 2020 are 1721 and 299. Multiplying the
 
 Of course, your expense report is much larger. Find the two entries that sum to 2020; what do you get if you multiply them together?
 '''
+from pathlib import Path
+import os
+
+here = Path(__file__).parent.resolve()
+os.chdir(here)
+
+test_case = [1721, 979, 366, 299, 675, 1456]
+
+def calculate_expense_2020(list_input, sum):
+    for i in list_input:
+        for j in list_input:
+            # this was weird to me, because I thought using i + j would work since it 
+            # did in the test case, but I had to explicitly give int() to the variables to ensure I didn't get type errors
+            # this worked with test_case because they are already recognized as int
+            if int(i) + int(j) == int(sum):
+                print(f'located a combination that matches:\n{i} + {j} == {sum}')
+                result = int(i) * int(j)
+                print(f'result: {result}')
+                return result
+    pass
+
+test = calculate_expense_2020(test_case, 2020)
+
+print(f'test result: {test}')
+
+expense_report = os.path.join(here, "input.txt")
+
+with open(expense_report, 'r') as f:
+    expense_lines = f.readlines()
+    expense_lines = [x.strip() for x in expense_lines]
+
+calculate_expense_2020(expense_lines, 2020)
