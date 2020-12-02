@@ -23,16 +23,33 @@ For example, suppose your expense report contained the following:
 In this list, the two entries that sum to 2020 are 1721 and 299. Multiplying them together produces 1721 * 299 = 514579, so the correct answer is 514579.
 
 Of course, your expense report is much larger. Find the two entries that sum to 2020; what do you get if you multiply them together?
+
+Your puzzle answer was 100419.
+
+--- Part Two ---
+The Elves in accounting are thankful for your help; one of them even offers you a starfish coin they had left over from a past vacation. They offer you a second one if you can find three numbers in your expense report that meet the same criteria.
+
+Using the above example again, the three entries that sum to 2020 are 979, 366, and 675. Multiplying them together produces the answer, 241861950.
+
+In your expense report, what is the product of the three entries that sum to 2020?
+
+Your puzzle answer was 265253940.
+
 '''
 from pathlib import Path
-import os
+import os, random
 
 here = Path(__file__).parent.resolve()
 os.chdir(here)
 
-test_case = [1721, 979, 366, 299, 675, 1456]
 
-def calculate_expense_2020(list_input, sum):
+expense_report = os.path.join(here, "input.txt")
+
+with open(expense_report, 'r') as f:
+    expense_lines = f.readlines()
+    expense_lines = [x.strip() for x in expense_lines]
+
+def calculate_expense_2020_part1(list_input, sum):
     for i in list_input:
         for j in list_input:
             # this was weird to me, because I thought using i + j would work since it 
@@ -45,14 +62,40 @@ def calculate_expense_2020(list_input, sum):
                 return result
     pass
 
-test = calculate_expense_2020(test_case, 2020)
+def calculate_expense_2020_part2(list_input, sum):
+    for i in list_input:
+        for j in list_input:
+            for k in list_input:
+                if int(i) + int(j) + int(k) == int(sum):
+                    print(f'located a combination that matches:\n{i} + {j} + {k} == {sum}')
+                    result = int(i) * int(j) * int(k)
+                    print(f'result: {result}')
+                    return result
+    pass
 
-print(f'test result: {test}')
 
-expense_report = os.path.join(here, "input.txt")
+def test_case(test_input, test_answer, sum, part):
+        if part == 1:
+            test = calculate_expense_2020_part1(test_input, sum)
+            if test == test_answer:
+                test_result = 'test success'
+                print(test_result)
+            else:
+                test_result = 'test fail'
+                print(test_result)
+            return test_result
+        if part == 2:
+            test = calculate_expense_2020_part2(test_input, sum)
+            if test == test_answer:
+                test_result = 'test success'
+                print(test_result)
+            else:
+                test_result = 'test fail'
+                print(test_result)
+            return test_result
+        
 
-with open(expense_report, 'r') as f:
-    expense_lines = f.readlines()
-    expense_lines = [x.strip() for x in expense_lines]
-
-calculate_expense_2020(expense_lines, 2020)
+test_part_1 = test_case([1721, 979, 366, 299, 675, 1456], 514579, 2020, 1)
+test_part_2 = test_case([1721, 979, 366, 299, 675, 1456], 241861950, 2020, 2)
+calculate_expense_2020_part1(expense_lines, 2020)
+calculate_expense_2020_part2(expense_lines, 2020)
