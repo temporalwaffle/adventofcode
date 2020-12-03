@@ -63,3 +63,91 @@ puzzle_input = os.path.join(here, "input.txt")
 with open(puzzle_input, 'r') as f:
     puzzle_lines = f.readlines()
     puzzle_lines = [x.strip() for x in puzzle_lines]
+
+test_input = [
+    "..##.......",
+    "#...#...#..",
+    ".#....#..#.",
+    "..#.#...#.#",
+    ".#...##..#.",
+    "..#.##.....",
+    ".#.#.#....#",
+    ".#........#",
+    "#.##...#...",
+    "#...##....#",
+    ".#..#...#.#",
+    ]
+
+
+tree_count = 0
+
+map_space = 0
+
+if map_space == "#":
+    tree_count += 1
+    pass
+
+def move_toboggan(starting_point: tuple, slope_parameters: tuple, map):
+    new_x = starting_point[0] + slope_parameters[0]
+    new_y = starting_point[1] + slope_parameters[1]
+    new_coordinates = (new_x, new_y)
+    print(f'Starting coordinates: {starting_point}')
+    print(f'Slope parameters: {slope_parameters}')
+
+    row_count = len(map)
+    current_position = starting_point
+    current_row = current_position[0]
+
+    while row_count >= current_row:
+        new_position = 
+        print(current_row)
+
+    # for row in range(row_count):
+    #     if current_row >= (row_count - 1):
+    #         print('breaking')
+
+    # def tree_mapper(map):
+    #     tree_count = 0
+    #     def space_analyzer(space):
+    #         if space == "#":
+    #             print(f'This space contains a tree')
+    #             tree = 0
+    #             return tree
+    #         else:
+    #             print(f'This space does not contain a tree')
+    #             tree = 1
+    #             return tree
+    #         pass
+
+        
+
+    #     r_count = 1
+    #     for row in map:
+    #         row_length = len(row)
+    #         for column in map:
+    #             column_length = len(column) 
+    #             for j in range(column_length):  
+    #                 for i in range(row_length):
+    #                     map_space = map[i][j]
+    #                     print(map_space)
+    #                     map_space
+    #                     current_position = (i, j)
+    #                     print(f"Current position: {current_position}")
+    #                     is_tree = space_analyzer(map_space)
+    #                     if is_tree == 0:
+    #                         tree_count +=1
+ 
+    #                 r_count += 1
+
+
+
+        # return tree_count
+
+    print(tree_mapper(map))
+
+    print(f"New coordinates: {new_coordinates}")
+    return new_coordinates
+
+move_toboggan((0,0), (3,1), test_input)
+
+print(test_input[0][0])
