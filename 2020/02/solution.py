@@ -24,45 +24,97 @@ least_number_of_times - most_number_of_times letter: password
 1-3 a: abcde    # valid 
 1-3 b: cdefg    # invalid
 2-9 c: ccccccccc # valid
+
+Your puzzle answer was 434.
+
+The first half of this puzzle is complete! It provides one gold star: *
+
+--- Part Two ---
+While it appears you validated the passwords correctly, they don't seem to be what the Official Toboggan Corporate Authentication System is expecting.
+
+The shopkeeper suddenly realizes that he just accidentally explained the password policy rules from his old job at the sled rental place down the street! The Official Toboggan Corporate Policy actually works a little differently.
+
+Each policy actually describes two positions in the password, where 1 means the first character, 2 means the second character, and so on. (Be careful; Toboggan Corporate Policies have no concept of "index zero"!) Exactly one of these positions must contain the given letter. Other occurrences of the letter are irrelevant for the purposes of policy enforcement.
+
+Given the same example list from above:
+
+1-3 a: abcde is valid: position 1 contains a and position 3 does not.
+1-3 b: cdefg is invalid: neither position 1 nor position 3 contains b.
+2-9 c: ccccccccc is invalid: both position 2 and position 9 contain c.
+How many passwords are valid according to the new interpretation of the policies?
+
+
 '''
 
 from pathlib import Path
-import os, random
+import os, re
 
 here = Path(__file__).parent.resolve()
 os.chdir(here)
 
 
-# password_list = os.path.join(here, "input.txt")
-# with open(password_list, 'r') as f:
-#     password_lines = f.readlines()
-#     password_lines = [x.strip() for x in password_lines]
+password_list = os.path.join(here, "input.txt")
+with open(password_list, 'r') as f:
+    password_lines = f.readlines()
+    password_lines = [x.strip() for x in password_lines]
 
-# print(password_lines)
-
-# for line in password_lines:
-#     print(line)
 
 test_case =['1-3 a: abcde','1-3 b: cdefg','2-9 c: ccccccccc']
 
-def password_policy_checker(password_key):
-    pass_key = password_key 
-    key_len = len(pass_key)
-    min_count = pass_key[0] 
-    max_count = pass_key[2]
-    letter = pass_key[4]
-    password = ''
-    for i in range(7, key_len):
-        password += pass_key[i]
-        print(password)
-    count = 0
-    for l in password:
-        if l == letter:
-            count += 1
-        print(l)
-        print(count)    
-    pass
 
+def password_audit(input_list):
+    def password_policy_checker(password_key, policy):
+        def old_policy():
+            # split input value using regex sample input: '1-3 a: abcde'
+            # sample output: ['1', '3', 'a', 'abcde']
+            pass_key = re.split(r'-|\s|: ', password_key)
+            min_count = pass_key[0] 
+            max_count = pass_key[1]
+            letter = pass_key[2]
+            password = pass_key[3]
+            count = 0
+            for l in password:
+                if l == letter:
+                    count += 1
+                    pass
+            if count < int(min_count) or count > int(max_count):
+                print("this password is invalid")
+                return 1
+            if count >= int(min_count) and count <= int(max_count):
+                print("this password is valid")
+                return 0
+            pass
+        def new_policy():
+            # split input value using regex sample input: '1-3 a: abcde'
+            # sample output: ['1', '3', 'a', 'abcde']
+            pass_key = re.split(r'-|\s|: ', password_key)
+            pos_1 = int(pass_key[0]) - 1
+            pos_2 = int(pass_key[1]) - 1
+            letter = pass_key[2]
+            password = pass_key[3]    
+            if password[pos_1] == letter and password[pos_1] != password[pos_2]:
+                print("this password is valid")
+                return 0   
+            elif password[pos_2] == letter and password[pos_1] != password[pos_2]:
+                print("this password is valid")
+                return 0   
+            else:
+                print("this password is invalid")
+                return 1
+            pass
+        if policy == "new":
+            return new_policy()
+        elif policy == "old":
+            return old_policy()
 
-for t in test_case:
-    password_policy_checker(t)
+    valid_password_count = 0
+    invalid_password_count = 0
+    for i in input_list:
+        password = password_policy_checker(i, "new")
+        if password == 0:
+            valid_password_count += 1
+        elif password == 1:
+            invalid_password_count += 1
+    return valid_password_count, invalid_password_count
+
+print(password_audit(password_lines))
