@@ -55,3 +55,66 @@ puzzle_input = os.path.join(here, "input.txt")
 with open(puzzle_input, 'r') as f:
     puzzle_lines = f.readlines()
     puzzle_lines = [x.strip() for x in puzzle_lines]
+
+
+birth_year = "byr"  # (Birth Year)
+issue_year = "iyr"  # (Issue Year)
+expiration_year = "eyr" # (Expiration Year)
+height = "hgt"  #  (Height)
+hair_color = "hcl" # (Hair Color)
+eye_color = "ecl"  # (Eye Color)
+passport_id = "pid" #  (Passport ID)
+country_id = "cid"  # (Country ID)
+
+example = '''
+ecl:gry pid:860033327 eyr:2020 hcl:#fffffd
+byr:1937 iyr:2017 cid:147 hgt:183cm
+
+iyr:2013 ecl:amb cid:350 eyr:2023 pid:028048884
+hcl:#cfa07d byr:1929
+
+hcl:#ae17e1 iyr:2013
+eyr:2024
+ecl:brn pid:760753108 byr:1931
+hgt:179cm
+
+hcl:#cfa07d eyr:2025 pid:166559648
+iyr:2011 ecl:brn hgt:59in
+'''
+
+passports = []
+
+keys = ["byr",
+        "iyr",
+        "eyr",
+        "hgt",
+        "hcl",
+        "ecl",
+        "pid",
+        ]
+
+i = 0
+
+for line in puzzle_lines:
+    if i == len(passports):
+        passports.append({})
+
+    if line.strip() == "":
+        i += 1
+        continue
+
+    line = line.split()
+    for pair in line:
+        k, v = pair.split(":")
+        passports[i][k] = v
+
+invalid = 0
+valid = 0
+print(len(passports))
+for passport in passports:
+    for key in keys:
+        if key not in passport:
+            print("missing required key. invalid passport")
+            invalid += 1
+            continue
+print(f'{invalid}: invalid passports')
