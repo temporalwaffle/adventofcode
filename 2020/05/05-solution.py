@@ -36,7 +36,34 @@ BFFFBBFRRR: row 70, column 7, seat ID 567.
 FFFBBBFRRR: row 14, column 7, seat ID 119.
 BBFFBBFRLL: row 102, column 4, seat ID 820.
 As a sanity check, look through your list of boarding passes. What is the highest seat ID on a boarding pass?
+
+--- Part Two ---
+Ding! The "fasten seat belt" signs have turned on. Time to find your seat.
+
+It's a completely full flight, so your seat should be the only missing boarding pass in your list. However, there's a catch: some of the seats at the very front and back of the plane don't exist on this aircraft, so they'll be missing from your list as well.
+
+Your seat wasn't at the very front or back, though; the seats with IDs +1 and -1 from yours will be in your list.
+
+What is the ID of your seat?
 '''
+# test_list = [1,2,3,6,4,5,6]
+
+# prev = 0 
+
+# for i in test_list:
+#     if prev == 0:
+#         prev = i
+#     elif prev != 0:
+#         if i == (prev + 1):
+#             print('if i == (prev + 1):')
+#         elif i != (prev + 1):
+#             print('elif i != (prev + 1):')
+#         prev = i
+
+
+# import sys
+# sys.exit()
+
 from pathlib import Path
 import os, re
 
@@ -62,24 +89,40 @@ for h in seat_keys:
         r_new = (r_max - r_min) // 2
         c_new = (c_max - c_min) // 2
         if i == 'F':
-            print(f'"Front "Starting range: {r_min}, {r_max}') 
+            # print(f'"Front "Starting range: {r_min}, {r_max}') 
             r_max = r_min + r_new
-            print(f'"Front "Ending range: {r_min}, {r_max}')
+            # print(f'"Front "Ending range: {r_min}, {r_max}')
         elif i == 'B':
-            print(f'"Back "Starting range: {r_min}, {r_max}')
+            # print(f'"Back "Starting range: {r_min}, {r_max}')
             r_min = r_min + r_new + 1
-            print(f'"Back "Ending range: {r_min}, {r_max}')
+            # print(f'"Back "Ending range: {r_min}, {r_max}')
         elif i == 'L':
-            print(f'"Left "Starting range: {c_min}, {c_max}') 
+            # print(f'"Left "Starting range: {c_min}, {c_max}') 
             c_max = c_min + c_new
-            print(f'"Left "Ending range: {c_min}, {c_max}')
+            # print(f'"Left "Ending range: {c_min}, {c_max}')
         elif i == 'R':
-            print(f'"Right "Starting range: {c_min}, {c_max}')
+            # print(f'"Right "Starting range: {c_min}, {c_max}')
             c_min = c_min + c_new + 1
-            print(f'"Right "Ending range: {c_min}, {c_max}')
+            # print(f'"Right "Ending range: {c_min}, {c_max}')
 
     seat_id = (r_min * 8) + c_min
     print(f'Seat ID: {seat_id}')
     seat_ids.append(seat_id)
+
 print(f'Seat IDs: {seat_ids}')
 print(f'Highest Seat ID: {max(seat_ids)}')
+
+seat_ids.sort()
+print(seat_ids)
+
+prev = 0 
+
+for i in seat_ids:
+    if prev == 0:
+        prev = i
+    elif prev != 0:
+        if i == (prev + 1):
+            print('if i == (prev + 1):')
+        elif i != (prev + 1):
+            print('elif i != (prev + 1):')
+        prev = i
