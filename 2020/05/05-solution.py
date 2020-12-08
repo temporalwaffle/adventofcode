@@ -122,7 +122,8 @@ for i in seat_ids:
         prev = i
     elif prev != 0:
         if i == (prev + 1):
-            print('if i == (prev + 1):')
+            # print('if i == (prev + 1):')
+            pass
         elif i != (prev + 1):
-            print('elif i != (prev + 1):')
+            print(f'Your Seat ID: {prev + 1}')
         prev = i
